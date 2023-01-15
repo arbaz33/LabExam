@@ -1,0 +1,31 @@
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/wait.h>
+#include<stdlib.h>
+
+
+void main(){
+
+        pid_t id;
+        id=fork();
+        if(id>0){
+
+        printf("parent");
+        sleep(5);
+        wait(NULL);
+        printf("area of rectangle is ");
+
+
+}
+
+        else{
+        printf("Area of rectangle :");
+        int l = 10;
+        int b =20;
+
+        int  Res =(l*b); 
+
+        printf(Res);
+	    exit(0);
+}
+}
