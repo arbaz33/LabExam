@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <sys/wait.h>
+#include <sys/shm.h>
+#include <unistd.h>
+
+int main() {
+    int l, b, area;
+    int shmid;
+    int *shmptr;
+    shmid = shmget(IPC_PRIVATE, sizeof(int), IPC_CREAT | 0666);
+    shmptr = shmat(shmid, NULL, 0);
+    int pid = fork();
+    if (pid == 0) {
+        printf("Enter the length of the rectangle: ");
+        scanf("%d", &l);
+        printf("Enter the breadth of the rectangle: ");
+        scanf("%d", &b);
+        area = l * b;
+        *shmptr = area;
+        shmdt(shmptr);
+    }
+    else {
+        wait(NULL);
+        printf("The area of the rectangle is: %d\n", *shmptr);
+        shmctl(shmid, IPC_RMID, NULL);
+    }
+    return 0;
+}
